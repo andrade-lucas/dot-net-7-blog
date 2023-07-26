@@ -3,6 +3,7 @@ using Blog.Extensions;
 using Blog.Models;
 using Blog.Services;
 using Blog.ViewModels;
+using Blog.ViewModels.Accounts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
@@ -15,6 +16,7 @@ public class AccountController : ControllerBase
     [HttpPost("v1/accounts")]
     public async Task<IActionResult> Post(
         [FromBody]RegisterViewModel model,
+        [FromServices]EmailService emailService,
         [FromServices]BlogDataContext context
     )
     {
@@ -37,6 +39,13 @@ public class AccountController : ControllerBase
         {
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
+
+            emailService.Send(
+                user.Name,
+                user.Email,
+                "Seja bem-vindo!",
+                $"<p>Essa é a sua senha temporária: {password}</p>"
+            );
             
             return Ok(new ResultViewModel<dynamic>(new
             {

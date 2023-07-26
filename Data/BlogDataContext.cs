@@ -11,7 +11,7 @@ public class BlogDataContext : DbContext
     public DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer("Server=localhost,1433;Database=Blog;User ID=sa;Password=@Randrade58#$;TrustServerCertificate=True");
+        => options.UseSqlServer("Server=localhost,1433;Database=Blog;User ID=sa;Password=@randrade58#$;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
