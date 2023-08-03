@@ -8,11 +8,11 @@ namespace Blog.Controllers;
 public class HomeController : ControllerBase
 {
     [HttpGet("")]
-    [ApiKey]
-    public IActionResult Get()
+    public IActionResult Get([FromServices] IConfiguration config)
     {
         return Ok(new {
-            status = "Ok"
+            status = "Ok",
+            env = config.GetValue<string>("env")
         });
     }
 }
